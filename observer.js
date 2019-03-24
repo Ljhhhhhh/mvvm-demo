@@ -13,6 +13,7 @@ class Observer {
     });
   }
 
+  // 劫持数据做响应式处理
   defineReactive(obj, key, value) {
     let self = this;
     let dep = new Dep();
