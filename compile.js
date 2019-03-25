@@ -20,6 +20,7 @@ class Compile{
      return name.startsWith('v-');
   }
 
+  // 编译元素节点
   compileElement(node) {
     let attrs = node.attributes; // 获取当前节点的属性
     Array.from(attrs).forEach(attr => {
@@ -33,8 +34,10 @@ class Compile{
     })
   }
 
+  // 编译文本节点
   compileText(node) {
     let expr = node.textContent;
+    // 匹配开头是{{结尾是}}并且中间不存在}的值
     let reg = /\{\{([^}]+)\}\}/g;
     if (reg.test(expr)) {
       CompileUtil['text'](node, this.vm, expr);
@@ -53,6 +56,7 @@ class Compile{
   }
 
   compile(fragment) {
+    // 获取fragment的所有子元素
     let childNodes = fragment.childNodes;
     Array.from(childNodes).forEach(node => {
       if (this.isElememtNode(node)) {
