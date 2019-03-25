@@ -86,40 +86,14 @@ CompileUtil = {
     });
   },
 
-  setVal(vm, expr, value) {
-    console.log(expr)
-    expr = expr.split('.');
-    return expr.reduce((prev, next, currentIndex) => {
-      if (currentIndex === expr.length - 1) {
-        return prev[next] = value;
-      }
-      return prev[next];
-    }, vm.$data);
-  },
-
   text(node, vm, expr) { // 文本处理
     let updateFn = this.updater['textUpdater'];
     let value = this.getTextVal(expr, vm);
-    // 替换掉{{}}符号
-    expr.replace(/\{\{([^}]+)\}\}/g, (...arguments) => {
-      new Watcher(vm, arguments[1], () => {
-        // 数据变化，文本节点需要重新获取依赖的数据并更新内容
-        updateFn && updateFn(node, this.getTextVal(expr, vm));
-      })
-    });
     updateFn && updateFn(node, value);
   },
 
   model(node, vm ,expr) { // v-model处理
     let updateFn = this.updater['modelUpdater'];
-    new Watcher(vm, expr,(newVal) => {
-      // 当值变化后调用cb传递新值
-      updateFn && updateFn(node, this.getVal(vm, expr));
-    });
-    node.addEventListener('input', (e) => {
-      let newValue = e.target.value;
-      this.setVal(vm, expr, newValue);
-    })
     updateFn && updateFn(node, this.getVal(vm, expr));
   },
 

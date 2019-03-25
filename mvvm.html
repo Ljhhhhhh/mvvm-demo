@@ -13,8 +13,6 @@
     <div>{{a.b}}</div>
   </div>
 </body>
-<script src="./watcher.js"></script>
-<script src="./observer.js"></script>
 <script src="./compile.js"></script>
 <script src="./mvvm.js"></script>
 <script>
@@ -23,9 +21,9 @@
   let vm = new MVVM({
     el: '#app',
     data: {
-      message: 'hello world',
+      message: '我是message',
       a: {
-        b: 1
+        b: '我是a.b'
       }
     }
   })
